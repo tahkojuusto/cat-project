@@ -1,0 +1,24 @@
+version: 0.1
+
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm i
+    build:
+      commands:
+        - CI=true npm run-script build
+        - CI=true npm test
+  artifacts:
+    baseDirectory: build
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
+
+backend:
+  phases:
+    build:
+      commands:
+        - amplifyPush --simple
