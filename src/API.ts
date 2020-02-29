@@ -3,11 +3,11 @@
 //  This file was automatically generated and should not be edited.
 
 export enum Temperament {
-  SKITTISH = "SKITTISH",
-  OUTGOING = "OUTGOING",
-  DOMINANT = "DOMINANT",
-  SPONTANEOUS = "SPONTANEOUS",
-  FRIENDLY = "FRIENDLY",
+  Skittish = "Skittish",
+  Outgoing = "Outgoing",
+  Dominant = "Dominant",
+  Spontaneous = "Spontaneous",
+  Friendly = "Friendly",
 }
 
 

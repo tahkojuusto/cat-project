@@ -7,11 +7,11 @@ type Breed @model(queries: { get: "getBreed", list: "listBreeds" }, mutations: n
 }
 
 enum Temperament {
-  SKITTISH
-  OUTGOING
-  DOMINANT
-  SPONTANEOUS
-  FRIENDLY
+  Skittish
+  Outgoing
+  Dominant
+  Spontaneous
+  Friendly
 }
 
 # This is needed to have workaround with read-only models.
