@@ -1,6 +1,6 @@
 import { Breed } from '../models/Breed';
 
-import React, { } from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -8,18 +8,20 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import { TablePagination } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    marginTop: theme.spacing(0),
     overflowX: 'auto',
+    margin: '1em'
   },
   table: {
     minWidth: 200,
+    margin: 5
   },
   tableCell: {
-    paddingRight: 4,
-    paddingLeft: 5,
+    paddingRight: 5,
+    paddingLeft: 6,
   },
 }));
 
@@ -31,6 +33,18 @@ export const BreedList = ({
   breeds
 }: IBreedListProps) => {
   const classes = useStyles();
+
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [page, setPage] = useState(0);
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   const table = (
     <Paper className={classes.root}>
@@ -44,7 +58,7 @@ export const BreedList = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          {breeds.map((breed: Breed) => (
+          {breeds.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((breed: Breed) => (
             <TableRow key={breed.id}>
               <TableCell key={breed.id} className={classes.tableCell}>{breed.name}</TableCell>
               <TableCell className={classes.tableCell}>{breed.origin}</TableCell>
@@ -54,6 +68,15 @@ export const BreedList = ({
           ))}
         </TableBody>
       </Table>
+      <TablePagination
+          rowsPerPageOptions={[5, 10]}
+          component="div"
+          count={breeds.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onChangePage={handleChangePage}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
+        />
     </Paper>
   );
 
