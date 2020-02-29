@@ -1,0 +1,30 @@
+type Breed @model(queries: { get: "getBreed", list: "listBreeds" }, mutations: null, subscriptions: null) {
+  id: ID!
+  name: String!
+  description: String
+  temperament: Temperament
+  origin: String
+}
+
+enum Temperament {
+  SKITTISH
+  OUTGOING
+  DOMINANT
+  SPONTANEOUS
+  FRIENDLY
+}
+
+# This is needed to have workaround with read-only models.
+# https://github.com/aws-amplify/amplify-cli/issues/3141
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
