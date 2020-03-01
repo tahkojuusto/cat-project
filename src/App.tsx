@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useState } from 'react';
 import API, { graphqlOperation } from '@aws-amplify/api';
 import Amplify from 'aws-amplify';
@@ -38,6 +39,7 @@ const theme: Theme = createMuiTheme({
 const App: React.FC = () => {
   const [breeds, setBreeds] = useState([]);
 
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const fetchBreeds = async (filter: ModelBreedFilterInput | null) => {
     try {
       let res = null;
@@ -54,6 +56,7 @@ const App: React.FC = () => {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const search = (value: string) => {
     let filter: ModelBreedFilterInput | null = null;
 

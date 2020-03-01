@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -26,6 +26,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 type Props = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   breeds: any;
 };
 
@@ -38,10 +39,12 @@ export const BreedList: React.FC<Props> = ({ breeds }) => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
 
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
 
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);

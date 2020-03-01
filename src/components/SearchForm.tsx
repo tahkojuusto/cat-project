@@ -13,6 +13,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 type Props = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   search: any;
 };
 
@@ -20,15 +21,18 @@ type Props = {
 export const SearchForm: React.FC<Props> = ({ search }) => {
   const classes = useStyles();
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let input: any = null;
   useEffect(() => search(input.value));
 
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     search(input.value);
   };
 
-  const handleKeyStroke = (event: React.KeyboardEvent<HTMLDivElement>) => {
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const handleKeyStroke = () => {
     search(input.value);
   };
 
@@ -39,6 +43,7 @@ export const SearchForm: React.FC<Props> = ({ search }) => {
         placeholder="Search breeds by name or origin"
         type="search"
         variant="outlined"
+        // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
         inputRef={node => (input = node)}
         className={classes.form}
         onKeyUp={handleKeyStroke}

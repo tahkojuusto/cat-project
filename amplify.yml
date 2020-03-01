@@ -8,6 +8,8 @@ frontend:
     build:
       commands:
         - CI=true npm run-script build
+        - GRAPHQL_ENDPOINT=$GRAPHQL_ENDPOINT
+        - GRAPHQL_API_KEY=$GRAPHQL_API_KEY
         - CI=true npm test
   artifacts:
     baseDirectory: build
