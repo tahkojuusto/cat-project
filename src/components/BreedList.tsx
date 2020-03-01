@@ -1,7 +1,4 @@
-import { Breed } from '../models/Breed';
-
 import API, { graphqlOperation } from '@aws-amplify/api';
-import { listBreeds } from '../graphql/queries';
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -12,14 +9,18 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { TablePagination } from '@material-ui/core';
 
-const useStyles = makeStyles(theme => ({
+import { ModelBreedFilterInput } from '../API';
+import { listBreeds } from '../graphql/queries';
+import { Breed } from '../models/Breed';
+
+const useStyles = makeStyles(() => ({
   root: {
     overflowX: 'auto',
-    margin: '1em'
+    margin: '1em',
   },
   table: {
     minWidth: 200,
-    margin: 5
+    margin: 5,
   },
   tableCell: {
     paddingRight: 5,
@@ -28,16 +29,22 @@ const useStyles = makeStyles(theme => ({
 }));
 
 type Props = {
-  filter: any;
-}
+  filter: ModelBreedFilterInput;
+};
 
+/** Fetch and display a list of cat breeds. Takes GraphQL filter object
+ * as props in order to filter the list.
+ */
 export const BreedList: React.FC<Props> = ({ filter }) => {
   const classes = useStyles();
 
   const [breeds, setBreeds] = useState([]);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [page, setPage] = useState(0);
 
   useEffect(() => {
-    const fetchBreeds = async (filter: any) => {
+    // Get breeds with given filter object as props.
+    const fetchBreeds = async (filter: ModelBreedFilterInput) => {
       try {
         const res = await API.graphql(graphqlOperation(listBreeds, filter));
         setBreeds(res.data.listBreeds.items);
@@ -49,9 +56,6 @@ export const BreedList: React.FC<Props> = ({ filter }) => {
     fetchBreeds(filter);
   });
 
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [page, setPage] = useState(0);
-
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
@@ -61,7 +65,7 @@ export const BreedList: React.FC<Props> = ({ filter }) => {
     setPage(0);
   };
 
-  const table = (
+  const table: JSX.Element = (
     <Paper className={classes.root}>
       <Table className={classes.table}>
         <TableHead>
@@ -75,7 +79,9 @@ export const BreedList: React.FC<Props> = ({ filter }) => {
         <TableBody>
           {breeds.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((breed: Breed) => (
             <TableRow key={breed.id}>
-              <TableCell key={breed.id} className={classes.tableCell}>{breed.name}</TableCell>
+              <TableCell key={breed.id} className={classes.tableCell}>
+                {breed.name}
+              </TableCell>
               <TableCell className={classes.tableCell}>{breed.origin}</TableCell>
               <TableCell className={classes.tableCell}>{breed.temperament}</TableCell>
               <TableCell className={classes.tableCell}>{breed.description}</TableCell>
@@ -84,14 +90,14 @@ export const BreedList: React.FC<Props> = ({ filter }) => {
         </TableBody>
       </Table>
       <TablePagination
-          rowsPerPageOptions={[5, 10]}
-          component="div"
-          count={breeds.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onChangePage={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
-        />
+        rowsPerPageOptions={[5, 10]}
+        component="div"
+        count={breeds.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onChangePage={handleChangePage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+      />
     </Paper>
   );
 
