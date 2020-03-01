@@ -1,4 +1,3 @@
-import API, { graphqlOperation } from '@aws-amplify/api';
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -9,8 +8,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { TablePagination } from '@material-ui/core';
 
-import { ModelBreedFilterInput } from '../API';
-import { listBreeds } from '../graphql/queries';
 import { Breed } from '../models/Breed';
 
 const useStyles = makeStyles(() => ({
@@ -29,32 +26,17 @@ const useStyles = makeStyles(() => ({
 }));
 
 type Props = {
-  filter: ModelBreedFilterInput;
+  breeds: any;
 };
 
 /** Fetch and display a list of cat breeds. Takes GraphQL filter object
  * as props in order to filter the list.
  */
-export const BreedList: React.FC<Props> = ({ filter }) => {
+export const BreedList: React.FC<Props> = ({ breeds }) => {
   const classes = useStyles();
 
-  const [breeds, setBreeds] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
-
-  useEffect(() => {
-    // Get breeds with given filter object as props.
-    const fetchBreeds = async (filter: ModelBreedFilterInput) => {
-      try {
-        const res = await API.graphql(graphqlOperation(listBreeds, filter));
-        setBreeds(res.data.listBreeds.items);
-      } catch (ex) {
-        console.log(ex);
-      }
-    };
-
-    fetchBreeds(filter);
-  });
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
