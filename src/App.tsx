@@ -12,18 +12,6 @@ import SearchForm from './components/SearchForm';
 import BreedList from './components/BreedList';
 
 Amplify.configure(awsconfig);
-Amplify.configure({
-  API: {
-    // eslint-disable-next-line @typescript-eslint/camelcase
-    graphql_endpoint: process.env.GRAPHQL_ENDPOINT,
-    API: {
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      graphql_headers: async () => ({
-        'x-api-key': process.env.GRAPHQL_API_KEY,
-      }),
-    },
-  },
-});
 
 const theme: Theme = createMuiTheme({
   palette: {
