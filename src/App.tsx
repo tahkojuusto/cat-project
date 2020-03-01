@@ -1,11 +1,10 @@
 import React from 'react';
 import Amplify from 'aws-amplify';
 import awsconfig from './aws-exports';
+import { ThemeProvider, createMuiTheme } from '@material-ui/core';
 
 import BreedList from './components/BreedList';
 import Header from './components/Header';
-import { ThemeProvider, createMuiTheme, hexToRgb, rgbToHex } from '@material-ui/core';
-import { green, purple } from '@material-ui/core/colors';
 
 Amplify.configure(awsconfig);
 
@@ -65,11 +64,15 @@ const theme = createMuiTheme({
   }
 });
 
-const App = () => (
-  <ThemeProvider theme={theme}>
-    <Header />
-    <BreedList breeds={BREEDS} />
-  </ThemeProvider>
-);
+const App = () => {
+  const container = (
+    <ThemeProvider theme={theme}>
+      <Header />
+      <BreedList filter={{}} />
+    </ThemeProvider>
+  );
+
+  return container;
+};
 
 export default App;

@@ -1,6 +1,8 @@
 import { Breed } from '../models/Breed';
 
-import React, { useState } from 'react';
+import API, { graphqlOperation } from '@aws-amplify/api';
+import { listBreeds } from '../graphql/queries';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -25,14 +27,27 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-interface IBreedListProps {
-  breeds: Breed[];
+type Props = {
+  filter: any;
 }
 
-export const BreedList = ({
-  breeds
-}: IBreedListProps) => {
+export const BreedList: React.FC<Props> = ({ filter }) => {
   const classes = useStyles();
+
+  const [breeds, setBreeds] = useState([]);
+
+  useEffect(() => {
+    const fetchBreeds = async (filter: any) => {
+      try {
+        const res = await API.graphql(graphqlOperation(listBreeds, filter));
+        setBreeds(res.data.listBreeds.items);
+      } catch (ex) {
+        console.log(ex);
+      }
+    };
+
+    fetchBreeds(filter);
+  });
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
