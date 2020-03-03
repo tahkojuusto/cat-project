@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+
 import React from 'react';
 import { render, fireEvent, RenderResult } from '@testing-library/react';
 import { SearchForm } from './SearchForm';
@@ -23,16 +25,14 @@ describe('SearchForm', () => {
     const form: HTMLFormElement | null = component.container.querySelector('form');
 
     fireEvent.change(input, { target: { value: 'Persian' } });
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     fireEvent.submit(form!);
 
-    // Search will be called twice (write to the input + submit).
-    expect(searchFnMock.mock.calls.length).toBe(2);
+    expect(searchFnMock.mock.calls.length).toBe(1);
     expect(searchFnMock).toHaveBeenCalledWith('Persian');
 
     fireEvent.change(input, { target: { value: 'Bengal' } });
     fireEvent.keyUp(input);
     expect(searchFnMock).toHaveBeenCalledWith('Bengal');
-    expect(searchFnMock.mock.calls.length).toBe(3);
+    expect(searchFnMock.mock.calls.length).toBe(2);
   });
 });
