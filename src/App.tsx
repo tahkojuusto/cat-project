@@ -5,6 +5,7 @@ import API, { graphqlOperation } from '@aws-amplify/api';
 import Amplify from 'aws-amplify';
 import awsconfig from './aws-exports';
 import { ThemeProvider, createMuiTheme, Theme } from '@material-ui/core';
+import debounce from 'lodash.debounce';
 
 import { ModelBreedFilterInput } from './API';
 import { listBreeds } from './graphql/queries';
@@ -66,7 +67,7 @@ const App: React.FC = () => {
 
   /* Passed function to search form to start filtering breeds.
   Sets the filter object, which will then start breed fetching. */
-  const search = (value: string): void => {
+  const searchUnrestricted = (value: string): void => {
     if (value) {
       const filter: ModelBreedFilterInput = getFilterObject(value);
       setFilter(filter);
@@ -75,6 +76,9 @@ const App: React.FC = () => {
 
     setFilter(null);
   };
+
+  // Debounce so that not so many GraphQL invocations.
+  const search = debounce(searchUnrestricted, 1000);
 
   // Find breeds if filtering has changed.
   useEffect(() => {

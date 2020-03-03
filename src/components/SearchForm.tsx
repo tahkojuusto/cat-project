@@ -57,3 +57,6 @@ export const SearchForm: React.FC<Props> = ({ search }) => {
 };
 
 export default SearchForm;
+function newFunction() {
+  'lodash.debounce';
+}
