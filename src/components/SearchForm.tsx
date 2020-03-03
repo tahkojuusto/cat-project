@@ -1,4 +1,6 @@
-import React, { useEffect, RefObject } from 'react';
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { TextField } from '@material-ui/core';
 
@@ -24,14 +26,12 @@ export const SearchForm: React.FC<Props> = ({ search }) => {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let input: any = null;
-  useEffect(() => search(input.value));
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     search(input.value);
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleKeyStroke = (event: React.KeyboardEvent<HTMLDivElement>): void => {
     search(input.value);
   };
@@ -43,7 +43,6 @@ export const SearchForm: React.FC<Props> = ({ search }) => {
         placeholder="Search breeds by name or origin"
         type="search"
         variant="outlined"
-        // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
         inputRef={node => (input = node)}
         className={classes.form}
         onKeyUp={handleKeyStroke}

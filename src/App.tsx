@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import React, { useState, useEffect } from 'react';
 import API, { graphqlOperation } from '@aws-amplify/api';
 import Amplify from 'aws-amplify';
 import awsconfig from './aws-exports';
@@ -25,6 +27,7 @@ const theme: Theme = createMuiTheme({
 
 const App: React.FC = () => {
   const [breeds, setBreeds] = useState([]);
+  const [filter, setFilter]: any = useState(null);
 
   const fetchBreeds = async (filter: ModelBreedFilterInput | null): Promise<void> => {
     try {
@@ -42,28 +45,34 @@ const App: React.FC = () => {
     }
   };
 
-  const search = (value: string): void => {
-    let filter: ModelBreedFilterInput | null = null;
+  const getFilterObject = (value: string): object => ({
+    or: [
+      {
+        name: {
+          contains: value,
+        },
+      },
+      {
+        origin: {
+          contains: value,
+        },
+      },
+    ],
+  });
 
+  const search = (value: string): void => {
     if (value) {
-      filter = {
-        or: [
-          {
-            name: {
-              contains: value,
-            },
-          },
-          {
-            origin: {
-              contains: value,
-            },
-          },
-        ],
-      };
+      const filter: ModelBreedFilterInput = getFilterObject(value);
+      setFilter(filter);
+      return;
     }
 
-    fetchBreeds(filter);
+    setFilter(null);
   };
+
+  useEffect(() => {
+    fetchBreeds(filter);
+  }, [filter]);
 
   return (
     <ThemeProvider theme={theme}>

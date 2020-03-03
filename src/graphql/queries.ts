@@ -13,11 +13,7 @@ export const getBreed = /* GraphQL */ `
   }
 `;
 export const listBreeds = /* GraphQL */ `
-  query ListBreeds(
-    $filter: ModelBreedFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
+  query ListBreeds($filter: ModelBreedFilterInput, $limit: Int, $nextToken: String) {
     listBreeds(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
