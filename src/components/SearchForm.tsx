@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useEffect } from 'react';
+
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { TextField } from '@material-ui/core';
 
@@ -20,11 +22,11 @@ type Props = {
   search: SearchFunction;
 };
 
-/** Display a header at the top of the page. **/
+/** Search form to find breeds by name and origin. Search will be triggered by key up and submit events. **/
 export const SearchForm: React.FC<Props> = ({ search }) => {
   const classes = useStyles();
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // Form input value to be used in search.
   let input: any = null;
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
@@ -32,6 +34,7 @@ export const SearchForm: React.FC<Props> = ({ search }) => {
     search(input.value);
   };
 
+  // Key up event will trigger a search.
   const handleKeyStroke = (event: React.KeyboardEvent<HTMLDivElement>): void => {
     search(input.value);
   };

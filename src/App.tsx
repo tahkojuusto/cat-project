@@ -26,9 +26,13 @@ const theme: Theme = createMuiTheme({
 });
 
 const App: React.FC = () => {
+  // Currently shown list of breeds.
   const [breeds, setBreeds] = useState([]);
+
+  // Filter object for getting a subset of breeds.
   const [filter, setFilter]: any = useState(null);
 
+  /* Get breeds from GraphQL using the filter object to filter names and origins. */
   const fetchBreeds = async (filter: ModelBreedFilterInput | null): Promise<void> => {
     try {
       let response = null;
@@ -60,6 +64,8 @@ const App: React.FC = () => {
     ],
   });
 
+  /* Passed function to search form to start filtering breeds.
+  Sets the filter object, which will then start breed fetching. */
   const search = (value: string): void => {
     if (value) {
       const filter: ModelBreedFilterInput = getFilterObject(value);
@@ -70,6 +76,7 @@ const App: React.FC = () => {
     setFilter(null);
   };
 
+  // Find breeds if filtering has changed.
   useEffect(() => {
     fetchBreeds(filter);
   }, [filter]);
