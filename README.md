@@ -4,6 +4,17 @@
 
 This is a demonstration project where end-users can list and find cat breeds.
 
+## Endpoints
+
+| Endpoint        | URL                                                                            | API Key                        |
+| --------------- | ------------------------------------------------------------------------------ | ------------------------------ |
+| Frontend (Prod) | https://master.d1cwncybm56uxh.amplifyapp.com/                                  |                                |
+| GraphQL (Prod)  | https://zuqh7xwphrfbthmgxap44gdia4.appsync-api.eu-west-1.amazonaws.com/graphql | da2-sbtwjd6dwjgbthdigfrfqxx7sa |
+
+You need to have a HTTP header `x-api-key` when invoking GraphQL. The API key is public and is available elsewhere.
+
+## Architecture
+
 ![Architecture](./resources/pictures/architecture.png?raw=true 'Architecture')
 
 ## Technologies
