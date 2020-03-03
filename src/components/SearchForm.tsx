@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, RefObject } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { TextField } from '@material-ui/core';
 
@@ -12,23 +12,27 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+type SearchFunction = (searchValue: string) => void;
+
 type Props = {
-  search: any;
+  search: SearchFunction;
 };
 
 /** Display a header at the top of the page. **/
 export const SearchForm: React.FC<Props> = ({ search }) => {
   const classes = useStyles();
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let input: any = null;
   useEffect(() => search(input.value));
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     search(input.value);
   };
 
-  const handleKeyStroke = (event: React.KeyboardEvent<HTMLDivElement>) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleKeyStroke = (event: React.KeyboardEvent<HTMLDivElement>): void => {
     search(input.value);
   };
 
@@ -39,6 +43,7 @@ export const SearchForm: React.FC<Props> = ({ search }) => {
         placeholder="Search breeds by name or origin"
         type="search"
         variant="outlined"
+        // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
         inputRef={node => (input = node)}
         className={classes.form}
         onKeyUp={handleKeyStroke}

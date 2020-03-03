@@ -8,8 +8,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { TablePagination } from '@material-ui/core';
 
-import { Breed } from '../models/Breed';
-
 const useStyles = makeStyles(() => ({
   root: {
     overflowX: 'auto',
@@ -25,8 +23,16 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+interface Breed {
+  id: string;
+  name: string;
+  origin: string;
+  temperament: string;
+  description: string;
+}
+
 type Props = {
-  breeds: any;
+  breeds: Breed[];
 };
 
 /** Fetch and display a list of cat breeds. Takes GraphQL filter object
@@ -38,11 +44,11 @@ export const BreedList: React.FC<Props> = ({ breeds }) => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
 
-  const handleChangePage = (event: unknown, newPage: number) => {
+  const handleChangePage = (event: unknown, newPage: number): void => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };

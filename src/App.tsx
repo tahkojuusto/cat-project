@@ -26,23 +26,23 @@ const theme: Theme = createMuiTheme({
 const App: React.FC = () => {
   const [breeds, setBreeds] = useState([]);
 
-  const fetchBreeds = async (filter: ModelBreedFilterInput | null) => {
+  const fetchBreeds = async (filter: ModelBreedFilterInput | null): Promise<void> => {
     try {
-      let res = null;
+      let response = null;
 
       if (filter) {
-        res = await API.graphql(graphqlOperation(listBreeds, { filter }));
+        response = await API.graphql(graphqlOperation(listBreeds, { filter }));
       } else {
-        res = await API.graphql(graphqlOperation(listBreeds));
+        response = await API.graphql(graphqlOperation(listBreeds));
       }
 
-      setBreeds(res.data.listBreeds.items);
+      setBreeds(response.data.listBreeds.items);
     } catch (ex) {
       console.log(ex);
     }
   };
 
-  const search = (value: string) => {
+  const search = (value: string): void => {
     let filter: ModelBreedFilterInput | null = null;
 
     if (value) {
